@@ -7,9 +7,20 @@ class HH(HHAbstract):
     def __init__(self):
         self.api = 'https://api.hh.ru/vacancies/?text='
 
-    def get_request(self, user_input):
-        response = requests.get(f'{self.api}{user_input}')
+    def _get_request(self, user_input):
+        response = requests.get(f'{self.api}{user_input}&per_page=100')
+
         if response.status_code == 200:
-            return response.json()
+            result = []
+            data = response.json()
+            for x in data['items']:
+                salary = x.get('salary')
+                if salary and salary['from'] != 0 and salary['to'] != 0 and salary['from'] is not None and salary[
+                    'to'] is not None:
+                    result.append(x)
+            return result
+
         else:
-            raise ConnectionError('Ошибка соединения:'.format(response.status_code))
+            print("Ошибка запроса:", response.status_code)
+
+
