@@ -1,10 +1,16 @@
 from data_base.database import DBManager
+from HH_get.HeadHunterGet import HH
+from parsers_psql_hh.vacancies import Vacancies
 
 
 def main():
-    password_sql = input("введите пароль бд")
-    db = DBManager(password=f"{password_sql}")
+    hh = HH()
 
+    req = hh.get_request('python')
+
+    db = DBManager(password="Shepetok2000")
+    for result in req:
+        db.add_vacancy(result)
     print("получает список всех вакансий,"
           "в названии которых содержатся переданные в метод слова, например python.\n")
     db.get_vacancies_with_keyword('junior')
