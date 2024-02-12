@@ -110,6 +110,7 @@ class DBManager(DBManagerAbstract):
 
     def add_vacancy(self, vacancies: Vacancies):
         cursor = self.connect()
+
         cursor.execute("INSERT INTO vacancies (id_vacancy, "
                        "name_vacancy, "
                        "name_company, "
