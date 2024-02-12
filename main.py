@@ -1,4 +1,3 @@
-from HH_get.HeadHunterGet import HH
 from data_base.database import DBManager
 
 
