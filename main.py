@@ -1,14 +1,45 @@
+import psycopg2
 from data_base.database import DBManager
 from HH_get.HeadHunterGet import HH
+from parsers_psql_hh.Create_T_DB import CreateDB
 from parsers_psql_hh.vacancies import Vacancies
 
 
 def main():
+    ctdb = CreateDB()
     hh = HH()
+    password = "Shepetok2000"
+    bdname = "vacancies_hh"
+
+    conn = psycopg2.connect(dbname=f'{bdname}'
+                            , host='localhost'
+                            , user='postgres'
+                            , password=f"{password}")
+    conn.autocommit = True
+
+    cur = conn.cursor()
+    cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (bdname,))
+    if not cur.fetchone():
+        ctdb.create_db()
+    else:
+        print("база данных существует")
+
+    cur.execute("SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = 'vacancies')")
+    table_exists = cur.fetchone()[0]
+    if not table_exists:
+        ctdb.create_table()
+    else:
+        print("Таблица существет")
+
+    cur.execute("ALTER TABLE vacancies DROP CONSTRAINT IF EXISTS id_vacancy_unique")
+    cur.execute("ALTER TABLE vacancies ADD CONSTRAINT id_vacancy_unique UNIQUE (id_vacancy)")
+
+    cur.close()
+    conn.close()
 
     req = hh.get_request('python')
 
-    db = DBManager(password="Shepetok2000")
+    db = DBManager(password=f"{password}")
     for result in req:
         db.add_vacancy(result)
     print("получает список всех вакансий,"

@@ -37,7 +37,7 @@ class CreateDB:
         # Create a new database
         cur = conn.cursor()
         cur.execute(
-            'CREATE TABLE vacancies (id_vacancy int,'
+            'CREATE TABLE vacancies (id_vacancy int primary key,'
             'name_vacancy varchar(250),'
             'name_company varchar(250) not null,'
             'salary_from int not null,'

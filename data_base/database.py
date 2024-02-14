@@ -59,13 +59,12 @@ class DBManager(DBManagerAbstract):
         for i in b:
             print(f"кол-во вакансий {i[0]}, назвние компаний {i[1]}")
 
-    def __init__(self, dbname='vacancies_hh', host='localhost', user='postgres', password=None):
+    def __init__(self, dbname='vacancies_hh', host='localhost', user='postgres', password="Shepetok2000"):
         self.user = user
         self.host = host
         self.dbname = dbname
         self.password = password
         cursor = self.connect()
-        self.prepare(cursor)
         cursor.close()
 
     def connect(self):
@@ -79,13 +78,13 @@ class DBManager(DBManagerAbstract):
 
         return cursor
 
-    def prepare(self, cursor):
-        # cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (self.dbname,))
-        # if not cursor.fetchone():
-        #     #cursor.execute(f"CREATE DATABASE {self.dbname}")
-        #     print(f"База данных {self.dbname} создана.")
-        # else:
-        #     print(f"База данных {self.dbname} уже была создана")
+    # def prepare(self, cursor):
+    #     cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", "vacancies_hh")
+    #     if not cursor.fetchone():
+    #         cursor.execute(f"CREATE DATABASE ")
+    #         print(f"База данных vacancies_hh создана.")
+    #     else:
+    #         print(f"База данных vacancies_hh уже была создана")
 
         # cursor.execute("SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = vacancies)")
         # table_exists = cursor.fetchone()[0]
@@ -106,7 +105,8 @@ class DBManager(DBManagerAbstract):
         #     print("Данные добавлены в таблицу.")
         # else:
         #     print("Данные дублируются и не были добавлены.")
-        pass
+
+    pass
 
     def add_vacancy(self, vacancies: Vacancies):
         cursor = self.connect()
