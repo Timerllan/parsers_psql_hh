@@ -11,8 +11,7 @@ def main():
     password = "Shepetok2000"
     bdname = "vacancies_hh"
 
-    conn = psycopg2.connect(dbname=f'{bdname}'
-                            , host='localhost'
+    conn = psycopg2.connect(host='localhost'
                             , user='postgres'
                             , password=f"{password}")
     conn.autocommit = True
@@ -23,6 +22,14 @@ def main():
         ctdb.create_db()
     else:
         print("база данных существует")
+
+    conn = psycopg2.connect(database=f"{bdname}"
+                            , host='localhost'
+                            , user='postgres'
+                            , password=f"{password}")
+    conn.autocommit = True
+
+    cur = conn.cursor()
 
     cur.execute("SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name = 'vacancies')")
     table_exists = cur.fetchone()[0]
