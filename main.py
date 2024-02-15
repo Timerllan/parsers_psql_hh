@@ -2,13 +2,15 @@ import psycopg2
 from data_base.database import DBManager
 from HH_get.HeadHunterGet import HH
 from parsers_psql_hh.Create_T_DB import CreateDB
-from parsers_psql_hh.vacancies import Vacancies
+import os
 
 
 def main():
-    ctdb = CreateDB()
+    password = "password_psql"
+
+    ctdb = CreateDB(password=f"{password}")
     hh = HH()
-    password = "Shepetok2000"
+
     bdname = "vacancies_hh"
 
     conn = psycopg2.connect(host='localhost'

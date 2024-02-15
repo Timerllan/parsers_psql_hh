@@ -3,7 +3,7 @@ import psycopg2
 
 class CreateDB:
 
-    def __init__(self, dbname="vacancies_hh", host='localhost', user='postgres', password="Shepetok2000"):
+    def __init__(self, dbname="vacancies_hh", host='localhost', user='postgres', password=None):
         self.dbname = dbname
         self.password = password
         self.user = user
