@@ -6,15 +6,16 @@ import os
 
 
 def main():
-    password = "password_psql"
+    user = "user"
+    database = "database"
+    host = "host"
+    password = "pasword_psql"
 
-    ctdb = CreateDB(password=f"{password}")
+    ctdb = CreateDB(database, host, user, password)
     hh = HH()
 
-    bdname = "vacancies_hh"
-
-    conn = psycopg2.connect(host='localhost'
-                            , user='postgres'
+    conn = psycopg2.connect(host=host
+                            , user=user
                             , password=f"{password}")
     conn.autocommit = True
 
@@ -25,9 +26,9 @@ def main():
     else:
         print("база данных существует")
 
-    conn = psycopg2.connect(database=f"{bdname}"
-                            , host='localhost'
-                            , user='postgres'
+    conn = psycopg2.connect(database=database
+                            , host=host
+                            , user=user
                             , password=f"{password}")
     conn.autocommit = True
 
@@ -38,7 +39,7 @@ def main():
     if not table_exists:
         ctdb.create_table()
     else:
-        print("Таблица существет")
+        print("Таблица существует")
 
     cur.execute("ALTER TABLE vacancies DROP CONSTRAINT IF EXISTS id_vacancy_unique")
     cur.execute("ALTER TABLE vacancies ADD CONSTRAINT id_vacancy_unique UNIQUE (id_vacancy)")
@@ -48,7 +49,7 @@ def main():
 
     req = hh.get_request('python')
 
-    db = DBManager(password=f"{password}")
+    db = DBManager(database, host, user, password)
     for result in req:
         db.add_vacancy(result)
     print("получает список всех вакансий,"
