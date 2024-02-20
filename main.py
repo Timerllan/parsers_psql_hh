@@ -6,21 +6,23 @@ import os
 
 
 def main():
-    user = "user"
-    database = "database"
-    host = "host"
-    password = "pasword_psql"
+    port = int(os.getenv("port", 5432))
+    user = os.getenv("user", "postgres")
+    database = os.getenv("database", "database")
+    host = os.getenv("host", "localhost")
+    password = os.getenv("password_psql", None)
 
-    ctdb = CreateDB(database, host, user, password)
+    ctdb = CreateDB(database, host, user, password, port)
     hh = HH()
 
     conn = psycopg2.connect(host=host
                             , user=user
-                            , password=f"{password}")
+                            , password=password
+                            , port=port)
     conn.autocommit = True
 
     cur = conn.cursor()
-    cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (bdname,))
+    cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (database,))
     if not cur.fetchone():
         ctdb.create_db()
     else:
@@ -29,7 +31,8 @@ def main():
     conn = psycopg2.connect(database=database
                             , host=host
                             , user=user
-                            , password=f"{password}")
+                            , password=password
+                            , port=port)
     conn.autocommit = True
 
     cur = conn.cursor()

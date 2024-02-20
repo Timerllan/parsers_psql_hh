@@ -3,7 +3,8 @@ import psycopg2
 
 class CreateDB:
 
-    def __init__(self, dbname, host, user, password):
+    def __init__(self, dbname, host, user, password, port):
+        self.port = port
         self.dbname = dbname
         self.password = password
         self.user = user
@@ -13,7 +14,8 @@ class CreateDB:
         conn = psycopg2.connect(
             user=self.user,
             password=self.password,
-            host=self.host
+            host=self.host,
+            port=self.port
         )
 
         conn.autocommit = True
@@ -30,7 +32,8 @@ class CreateDB:
             database=self.dbname,
             user=self.user,
             password=self.password,
-            host=self.host
+            host=self.host,
+            port=self.port
         )
 
         conn.autocommit = True
