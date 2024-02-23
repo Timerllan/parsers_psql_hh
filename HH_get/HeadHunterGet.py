@@ -1,4 +1,4 @@
-from HH_get.abstract import AbstractGetter
+from parsers_psql_hh.HH_get.abstract import AbstractGetter
 from parsers_psql_hh.vacancies import Vacancies
 import requests
 
